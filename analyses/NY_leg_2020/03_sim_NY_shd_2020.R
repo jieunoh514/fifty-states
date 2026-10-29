@@ -11,14 +11,13 @@ set.seed(2020)
 mh_accept_per_smc <- ceiling(n_distinct(map_shd$shd_2020)/3) + 600
 
 constr <- redist_constr(map_shd) |>
-    add_constr_total_splits(strength = 0.6, admin = county_muni)
-
+    add_constr_total_splits(strength = 0.8, admin = county)
 
 plans <- redist_smc(
     map_shd,
-    nsims = 8000, runs = 5,
-    ncores = as.integer(Sys.getenv("SLURM_CPUS_PER_TASK")),
-    counties = shd_2010,
+    nsims = 3000, runs = 5,
+    ncores = 0,
+    counties = county_group,
     constraints = constr,
     sampling_space = "linking_edge",
     ms_params = list(frequency = 1L, mh_accept_per_smc = mh_accept_per_smc),
